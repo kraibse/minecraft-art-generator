@@ -9,7 +9,6 @@ import math
 import os
 import time
 
-import pyscreenshot as ImageGrab
 import Image
 
 
@@ -26,6 +25,9 @@ def init():
     #
 
 
+def clearArea():
+    mc.setBlocks(-320, -1, -320, 320, 25, 320, 0)
+    mc.setBlocks(-320, -1, -320, 320, -1, 320, 9)
 
 
 def handleRequests(btn):
@@ -37,16 +39,13 @@ def handleRequests(btn):
     # RESET
     print("Setting default position")
     mc.player.setPos(50.5, 48, 45.5)
-
-    mc.postToChat("Clearing Area")
-    mc.setBlocks(-320, -1, -320, 320, 25, 320, 0)
-    mc.setBlocks(-320, -1, -320, 320, -1, 320, 9)
     # RESET END
 
     args = msg.split(" ")
     command = args[0]
 
     if command == "/print":
+        clearArea()
         mc.postToChat("Executing print command...")
 
         for i in os.listdir("./pictures/"):
@@ -57,6 +56,10 @@ def handleRequests(btn):
             main("pictures/" + args[1])
         except FileNotFoundError:
             mc.postToChat("File does not exist")
+
+    elif command == "/clear":
+        print("clearing..")
+        clearArea()
     
 
 def main(filename):
