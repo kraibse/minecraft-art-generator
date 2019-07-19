@@ -33,47 +33,66 @@ def clearArea():
 def handleRequests(btn):
     msg = app.getEntry("ChatBox")
 
-    if msg[0] != "/":
-        mc.postToChat(msg)
-
     # RESET
     print("Setting default position")
     mc.player.setPos(50.5, 48, 45.5)
     # RESET END
 
-    args = msg.split(" ")
-    command = args[0]
+    msg.replace("§", "")
+    if len(msg) > 0:
+        args = msg.split(" ")
 
-    if command == "/print":
-        try:
-            for i in os.listdir("./pictures/):
-                if i[0:len(args[1])] == args[1]:
-                    print(i)
-                    args[1] = i
-
+        if msg[0] != "/":
             try:
-                filePath = "pictures/" + args[1]
-                if os.path.isfile(filePath):
-                    clearArea()
-                    main(filePath)
+                mc.postToChat(msg)
+            except UnicodeEncodeError:
+                mc.postToChat("[ERROR] You entered unsupported characters")
+    
+        elif args[0] == "/print": # command
+            try:
 
-                else:
-                    mc.postToChat("File does not exist")
+                for i in os.listdir("./pictures/"):
+                    if i[0:i.rfind(".")] == args[1]:
+                        args[1] = i
+
+                try:
+                    filePath = "pictures/" + args[1]
+                    if os.path.isfile(filePath):
+                    
+                        mc.postToChat(args[1])
+                        print(args[1])
+
+                        clearArea()
+                        main(filePath)
+
+                    else:
+                        print("[ERROR] File '{}' does not exist".format(args[1]))
+                        mc.postToChat("[ERROR] File '{}' does not exist".format(args[1]))
             
-            except FileNotFoundError:
-                mc.postToChat("File does not exist")
+                except FileNotFoundError:
+                    print("[ERROR] File '{}' does not exist".format(args[1]))
+                    mc.postToChat("[ERROR] File '{}' does not exist".format(args[1]))
 
-        except IndexError:
-            mc.postToChat("Filename must be provided")
+            except IndexError:
+                print("[ERROR] Filename must be provided")
+                mc.postToChat("[ERROR] Filename must be provided")
 
 
 
-    elif command == "/clear":
-        print("clearing..")
-        clearArea()
+        elif args[0] == "/clear":
+            print("clearing..")
+            clearArea()
 
-    else:
-        mc.postToChat("Command not found")
+        elif args[0] == "/döner":
+            mc.postToChat("lecker")
+
+        elif args[0] == "/credits":
+            mc.postToChat("[AUTHORS] Leon Horn, Yannis Gille")
+            clearArea()
+            main("pictures/authors.jpg")
+
+        else:
+            mc.postToChat("[ERROR] Command not found")
     
 
 def main(filename):
