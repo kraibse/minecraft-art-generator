@@ -11,11 +11,12 @@ def getRGB(img, x, y):
 
 def resize(img):
     img = Image.open(img)
+
     x, y = getSize(img)
 
     maxRes = 64
 
-    aspectRatio = x / y
+    aspectRatio = max(x, y) / min(x, y)
     if x == max(x, y):
         x = maxRes
         y = int(maxRes / aspectRatio)

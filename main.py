@@ -45,37 +45,59 @@ def handleRequests(btn):
     command = args[0]
 
     if command == "/print":
-        clearArea()
-        mc.postToChat("Executing print command...")
-
-        for i in os.listdir("./pictures/"):
-            if i[0:len(args[1])] == args[1]:
-                 args[1] = i
-
         try:
-            main("pictures/" + args[1])
-        except FileNotFoundError:
-            mc.postToChat("File does not exist")
+            for i in os.listdir("./pictures/):
+                if i[0:len(args[1])] == args[1]:
+                    print(i)
+                    args[1] = i
+
+            try:
+                filePath = "pictures/" + args[1]
+                if os.path.isfile(filePath):
+                    clearArea()
+                    main(filePath)
+
+                else:
+                    mc.postToChat("File does not exist")
+            
+            except FileNotFoundError:
+                mc.postToChat("File does not exist")
+
+        except IndexError:
+            mc.postToChat("Filename must be provided")
+
+
 
     elif command == "/clear":
         print("clearing..")
         clearArea()
+
+    else:
+        mc.postToChat("Command not found")
     
 
 def main(filename):
-    img = Image.resize(filename)
+    try:
+        img = Image.resize(filename)
 
-    for y in range(Image.getSize(img)[1]):
-        for x in range(Image.getSize(img)[0]):
-            r, g, b, a = Image.getRGB(img, x, y)
-            if a == 255:
-                blockID, blockMeta = getBlockID(r, g, b)
-            else:
-                blockID, blockMeta = 0, 0
+        for i in range(5, 0, -1):
+            mc.postToChat(i)
+            time.sleep(1)
+
+        for y in range(Image.getSize(img)[1]):
+            for x in range(Image.getSize(img)[0]):
+                r, g, b, a = Image.getRGB(img, x, y)
+                if a == 255:
+                    blockID, blockMeta = getBlockID(r, g, b)
+                else:
+                    blockID, blockMeta = 0, 0
                 
-            mc.setBlock(10 + x, 1, 10 + y, blockID, blockMeta)
+                mc.setBlock(10 + x, 1, 10 + y, blockID, blockMeta)
 
-    mc.postToChat("Finished")
+        mc.postToChat("Finished")
+        
+    except OSError as e:
+        mc.postToChat("File format not supported")
 
 
 def getBlockID(r, g, b):
