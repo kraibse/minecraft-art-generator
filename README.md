@@ -1,6 +1,9 @@
 # Minecraft Printer
 
 ## ATTENTION!
+This project will not be maintained anylonger due to missing hardware on my side.
+Maybe I'll get back to it when I get a Raspberry Pi in the future.
+*
 These scripts require a Raspberry Pi to execute correctly.
 They do NOT work with a normal Minecraft installation.
 
