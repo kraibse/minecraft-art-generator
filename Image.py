@@ -14,7 +14,7 @@ def resize(img):
 
     x, y = getSize(img)
 
-    maxRes = 64
+    maxRes = 256
 
     aspectRatio = max(x, y) / min(x, y)
     if x == max(x, y):
