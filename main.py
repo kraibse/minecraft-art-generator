@@ -103,7 +103,7 @@ class MinecraftRemote():
                 self.mc.postToChat("[ERROR] You entered unsupported characters")
             return
 
-        commands = ["/print", "/clear"]
+        commands = ["/print", "/gif", "/clear"]
         if args[0] not in commands:
             self.output_message("[ERROR] Command not found")
             return
@@ -111,7 +111,8 @@ class MinecraftRemote():
         switch = \
         {
             0 : threading.Thread(target=self.initiate_printing, args=args),
-            1 : threading.Thread(target=self.clearArea)
+            1 : threading.Thread(target=self.output_gif, args=args),
+            2 : threading.Thread(target=self.clearArea)
         }
 
         process = switch.get(commands.index(args[0]))
@@ -139,20 +140,38 @@ class MinecraftRemote():
         self.output_message("Now printing: {}".format(name))
         self.clearArea()
         self.outputImage(name)
+        self.output_message("Finished")
 
 
-    def outputImage(self, filename):
-        filename = "./pictures/" + filename
+    def output_gif(self, command, name=None):
+        if name == None:
+            self.output_message("[ERROR] Filename must be provided")
+
+        Image.extractFrames("./pictures/" + name + ".gif")
+        framePath = "./pictures/frames/"
+        for frame in os.listdir(framePath):
+            self.outputImage(frame, True)
+
+        self.output_message("Finished")
+        self.deleteFrames()
+
+
+    def deleteFrames(self):
+        framePath = "./pictures/frames/"
+        for frame in os.listdir(framePath):
+            os.remove(framePath + frame)
+
+
+    def outputImage(self, filename, frame=False):
         try:
-            img = Image.resize(filename)
+            outDir = "./pictures/"
+            if frame:
+                outDir += "frames/"
+            img = Image.resize(outDir + filename)
 
         except OSError as e:
             self.output_message("File format not supported")
             return
-
-        for i in range(5, 0, -1):
-            self.output_message(i)
-            time.sleep(1)
 
         imageSize = Image.getSize(img)
         for y in range(imageSize[1]):
@@ -165,10 +184,9 @@ class MinecraftRemote():
 
                 self.mc.setBlock(-128 + x, 1, -128 + y, blockID, blockMeta)
 
-        self.output_message("Finished")
-
 
     def clearArea(self):
+        self.output_message("Processing request...")
         self.mc.setBlocks(-128, 0, -128, 128, 255, 128, block.AIR)
         self.mc.setBlocks(-128, 0, -128, 128, 0, 128, block.WOOL, 0)
 
