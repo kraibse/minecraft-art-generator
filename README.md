@@ -1,17 +1,23 @@
 # Minecraft Printer
 
-## ATTENTION!
-These scripts either require a Raspberry Pi or a server installation
-with the Spigot plugin "RaspberryJuice" to execute correctly.
-They do NOT work with a normal Minecraft installation.
-
 ## Description
 These scripts enable you to print an imported image into your Minecraft world.
-Currently the produced pixel art is locked to a maximum in-game resolution of 64 by 64 blocks.
+Currently the produced pixel art is locked to a maximum in-game resolution of 256 by 256 blocks.
 
 You can change this resolution if needed in the [Image.py](https://github.com/rrleo/minecraft_printer/blob/136fef1abf0cb8bbcbdb173402e3cd17497e6b90/Image.py#L16) file.
 
-    maxRes = 64
+    maxRes = 256
+
+It is recommended to change the resolution to **64** if you want to run the scripts on a RaspberryPi.
+Minecraft Pi Edition wont allow any changes in the render distance (also the performance is very bad)
+If you're on PC you can adjust the resolution to your liking.
+
+
+Original photo:                                 
+![Original photo](https://github.com/kraibse/minecraft_printer/blob/master/pictures/example/original.png)
+
+In-game screenshot:
+![Screenshot](https://github.com/kraibse/minecraft_printer/blob/master/pictures/example/ingame.png)
 
 ## Instructions
 1. Open the program:
