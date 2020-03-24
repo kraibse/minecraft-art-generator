@@ -10,172 +10,187 @@ import os
 import time
 import threading
 
-import Image
-
-def init():
-    global mc
-    try:
-        mc = Minecraft.create()
-    except ConnectionRefusedError:
-        sys.exit(print("[MCWorldNotFound] Make sure the world is running before starting the script."))
-
-    # app interface
-    global app
-    app = gui("Minecraft")
-    app.addLabelEntry("ChatBox", 0, 0)
-    app.addButton("Send", handleRequests, 0, 1)
-    app.go()
-    #
+import Image # reference to Image.py
 
 
-def clearArea():
-    for x in range(200):
-        for y in range(200):
-            for z in range(100):
-                mc.setBlock(x, y, z, block.DIRT)
-                print("Setting block at x: {}, y: {}, z: {}".format(x, y, z))
-                time.sleep(0.1)
+class MinecraftRemote():
+    '''
+    you can add more colors if you want
+    just add another entry:
+    
+    (blockID, metaData): (r, g, b)
+    '''
+
+    colors = { \
+            (35, 0): (228, 228, 228), # white
+            (35, 8): (160, 167, 167), # light gray
+            (35, 7): (65, 65, 65), # dark gray
+            (35, 15): (24, 20, 20), # black
+            (35, 14): (158, 43, 39), # red
+            (35, 1): (234, 126, 53), # orange
+            (35, 4): (194, 181, 28), # yellow
+            (35, 5): (57, 186, 46), # lime green
+            (35, 3): (99, 135, 210), # light blue
+            (35, 9): (38, 113, 145), # cyan
+            (35, 11): (37, 49, 147), # blue
+            (35, 10): (126, 52, 191), # purple
+            (35, 2): (190, 73, 201), # magenta
+            (35, 6): (217, 129, 153), # pink
+            (35, 12): (86, 51, 28), # brown
+            (35, 13): (54, 75, 24), # green     ### WOOL END ###
+            (17, 2): (88, 70, 43), # log
+            (3, 0): (117, 84, 58), # dirt
+            (5, 0): (140, 114, 70), # planks
+            (18, 0): (33, 125, 22), # leaves
+            (89, 0): (128, 105, 63), # glowstone
+            (24, 0): (84, 84, 84), # sandstone
+            (87, 0): (98, 47, 46), # netherrack
+            (7, 0): (74, 74, 74), # bedrock
+            (41, 0): (220, 211, 72), # goldblock
+            (1, 0): (110, 110, 110), # stone
+            (45, 0): (127, 83, 71), # bricks
+            (42, 0): (196, 196, 196), # ironblock
+            (57, 0): (97, 196, 191), # diamondblock
+            (103, 0): (131, 134, 32) # melon
+        }
 
 
-def handleRequests(btn):
-    msg = app.getEntry("ChatBox")
+    def __init__(self):
+        '''
+        Setup for the Minecraft instance and the Application GUI
+        '''
+        try:
+            self.mc = Minecraft.create()
 
-    # RESET
-    print("Setting default position")
-    mc.player.setPos(50.5, 48, 45.5)
-    # RESET END
+        except ConnectionRefusedError:
+            sys.exit(print("[MCWorldNotFound] Make sure the world is running before starting the script."))
 
-    msg.replace("§", "")
-    if len(msg) > 0:
+        # app interface
+        self.app = gui("Minecraft")
+        self.app.addLabelEntry("ChatBox", 0, 0)
+        self.app.addButton("Send", self.handleRequests, 0, 1)
+        self.app.go()
+
+
+    def output_message(self, msg):
+        '''
+        Present a given message to the user via terminal and in-game chat
+        '''
+        self.mc.postToChat(msg)
+        print(msg)
+
+
+    def handleRequests(self, btn):
+        '''
+        Accepts and handles requests by commands
+        '''
+        msg = self.app.getEntry("ChatBox")
+
+        # Resetting to default vantage point
+        print("Setting default position")
+        self.mc.player.setPos(0, 134, 0)
+        self.clearArea()
+
+        #msg.replace("§", "")
+        if len(msg) == 0:
+            return
+
         args = msg.split(" ")
-
-        if msg[0] != "/":
+        if msg[0] != "/": # checks the input for unsupported characters / commands
             try:
-                mc.postToChat(msg)
-
+                self.mc.postToChat(msg)
             except UnicodeEncodeError:
-                mc.postToChat("[ERROR] You entered unsupported characters")
-    
-        elif args[0] == "/print": # command
-            if len(args) == 1:
-                print("[ERROR] Filename must be provided")
-                mc.postToChat("[ERROR] Filename must be provided")
-                return
+                self.mc.postToChat("[ERROR] You entered unsupported characters")
+            return
 
-            for i in os.listdir("./pictures/"):
-                if i[0:i.rfind(".")] == args[1]:
-                    args[1] = i
-            try:
-                filePath = "pictures/" + args[1]
-                if os.path.isfile(filePath):
-            
-                    mc.postToChat(args[1])
-                    print(args[1])
-                    clearArea()
-                    main(filePath)
-                else:
-                    print("[ERROR] File '{}' does not exist".format(args[1]))
-                    mc.postToChat("[ERROR] File '{}' does not exist".format(args[1]))
-            except FileNotFoundError:
-                print("[ERROR] File '{}' does not exist".format(args[1]))
-                mc.postToChat("[ERROR] File '{}' does not exist".format(args[1]))
+        commands = ["/print", "/clear"]
+        if args[0] not in commands:
+            self.output_message("[ERROR] Command not found")
+            return
+
+        switch = \
+        {
+            0 : threading.Thread(target=self.initiate_printing, args=args),
+            1 : threading.Thread(target=self.clearArea)
+        }
+
+        process = switch.get(commands.index(args[0]))
+        process.start()
+        
+
+    def initiate_printing(self, command, name=None):
+        if name == None:
+            output_message("[ERROR] Filename must be provided")
+            return
+
+        was_not_found = True
+        for i in os.listdir("./pictures/"):
+            filename = i[0:i.rfind(".")] # separates filename and extension
+
+            if filename == name and os.path.isfile("./pictures/" + i):
+                was_not_found = True
+                name = i
+                break
+
+        if was_not_found == False:
+            self.output_message("[ERROR] File '{}' does not exist. Try again without the extension".format(name))
+            return
+
+        self.output_message("Now printing: {}".format(name))
+        self.clearArea()
+        self.outputImage(name)
 
 
+    def outputImage(self, filename):
+        filename = "./pictures/" + filename
+        try:
+            img = Image.resize(filename)
 
-
-        elif args[0] == "/clear":
-            print("clearing..")
-            clearArea()
-
-        elif args[0] == "/döner":
-            mc.postToChat("lecker")
-
-        elif args[0] == "/credits":
-            mc.postToChat("[AUTHORS] Leon Horn, Yannis Gille")
-            clearArea()
-            main("pictures/authors.jpg")
-
-        else:
-            mc.postToChat("[ERROR] Command not found")
-    
-
-def main(filename):
-    try:
-        img = Image.resize(filename)
+        except OSError as e:
+            self.output_message("File format not supported")
+            return
 
         for i in range(5, 0, -1):
-            mc.postToChat(i)
+            self.output_message(i)
             time.sleep(1)
 
-        for y in range(Image.getSize(img)[1]):
-            for x in range(Image.getSize(img)[0]):
+        imageSize = Image.getSize(img)
+        for y in range(imageSize[1]):
+            for x in range(imageSize[0]):
                 r, g, b, a = Image.getRGB(img, x, y)
                 if a == 255:
-                    blockID, blockMeta = getBlockID(r, g, b)
+                    blockID, blockMeta = self.getBlockID(r, g, b)
                 else:
                     blockID, blockMeta = 0, 0
-                
-                mc.setBlock(10 + x, 1, 10 + y, blockID, blockMeta)
 
-        mc.postToChat("Finished")
+                self.mc.setBlock(-128 + x, 1, -128 + y, blockID, blockMeta)
+
+        self.output_message("Finished")
+
+
+    def clearArea(self):
+        self.mc.setBlocks(-128, 0, -128, 128, 255, 128, block.AIR)
+        self.mc.setBlocks(-128, 0, -128, 128, 0, 128, block.WOOL, 0)
+
+        self.mc.setBlocks(-129, 1, -129, -129, 1, 129, block.GOLD_BLOCK)
+        self.mc.setBlocks(-129, 1, -129, 129, 1, -129, block.GOLD_BLOCK)
+        self.mc.setBlocks(129, 1, 129, -129, 1, 129, block.GOLD_BLOCK)
+        self.mc.setBlocks(129, 1, 129, 129, 1, -129, block.GOLD_BLOCK)
+
+
+    def getBlockID(self, r, g, b):
+        currColor = []
+
+        for color in self.colors:
+            vec3Distance = math.sqrt((r - self.colors[color][0]) ** 2 + (g - self.colors[color][1]) ** 2 + (b - self.colors[color][2]) ** 2)
+
+            if len(currColor) == 0 or vec3Distance < currColor[0]:
+                currColor = [vec3Distance, color]
+
+        block_id = currColor[1]
         
-    except OSError as e:
-        mc.postToChat("File format not supported")
-
-
-def getBlockID(r, g, b):
-    blockColor = {
-        (35, 0): (228, 228, 228), # white
-        (35, 8): (160, 167, 167), # light gray
-        (35, 7): (65, 65, 65), # dark gray
-        (35, 15): (24, 20, 20), # black
-        (35, 14): (158, 43, 39), # red
-        (35, 1): (234, 126, 53), # orange
-        (35, 4): (194, 181, 28), # yellow
-        (35, 5): (57, 186, 46), # lime green
-        (35, 3): (99, 135, 210), # light blue
-        (35, 9): (38, 113, 145), # cyan
-        (35, 11): (37, 49, 147), # blue
-        (35, 10): (126, 52, 191), # purple
-        (35, 2): (190, 73, 201), # magenta
-        (35, 6): (217, 129, 153), # pink
-        (35, 12): (86, 51, 28), # brown
-        (35, 13): (54, 75, 24), # green     ### WOOL END ###
-        (17, 2): (88, 70, 43), # log
-        (3, 0): (117, 84, 58), # dirt
-        (5, 0): (140, 114, 70), # planks
-        (18, 0): (33, 125, 22), # leaves
-        (89, 0): (128, 105, 63), # glowstone
-        (24, 0): (84, 84, 84), # sandstone
-        (87, 0): (98, 47, 46), # netherrack
-        (7, 0): (74, 74, 74), # bedrock
-        (41, 0): (220, 211, 72), # goldblock
-        (1, 0): (110, 110, 110), # stone
-        (45, 0): (127, 83, 71), # bricks
-        (42, 0): (196, 196, 196), # ironblock
-        (57, 0): (97, 196, 191), # diamondblock
-        (103, 0): (131, 134, 32), # melon
-    }
-
-    currColor = ()
-
-    for color in blockColor:
-        vec3Distance = math.sqrt((r - blockColor[color][0]) ** 2 + (g - blockColor[color][1]) ** 2 + (b - blockColor[color][2]) ** 2)
-
-        if len(currColor) == 0 or vec3Distance < currColor[0]:
-            currColor = (vec3Distance, color)
-
-    ID = currColor[1]
-    
-    return ID
+        return block_id
 
 
 if __name__ == "__main__":
-    try:
-        #filename = sys.argv[1]
-        pass
-        
-    except IndexError:
-        sys.exit(print("Usage: python3 {} [filename]".format(__file__)))
-
-    init()
+    MinecraftRemote()
