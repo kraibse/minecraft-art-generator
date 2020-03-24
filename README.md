@@ -1,10 +1,8 @@
 # Minecraft Printer
 
 ## ATTENTION!
-This project will not be maintained anylonger due to missing hardware on my side.
-Maybe I'll get back to it when I get a Raspberry Pi in the future.
-*
-These scripts require a Raspberry Pi to execute correctly.
+These scripts either require a Raspberry Pi or a server installation
+with the Spigot plugin "RaspberryJuice" to execute correctly.
 They do NOT work with a normal Minecraft installation.
 
 ## Description
@@ -35,6 +33,9 @@ You can change this resolution if needed in the [Image.py](https://github.com/rr
     python3 -m install appJar
     python3 -m install Pillow
 
-- [x] Minecraft Pi (usually ONLY on Raspberry Pi)
+- [x] Minecraft Pi
+OR
+- [x] Spigot Server with the "RaspberryJuice" plugin
+
 - [x] Python 3.x
 - [x] Pictures in your "pictures" directory
