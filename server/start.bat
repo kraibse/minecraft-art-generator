@@ -1,1 +1,1 @@
-java -Xms4G -Xmx4G -jar spigot-1.15.2.jar
+java -Xmx4G -jar spigot-1.12.1.jar

@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "uuid": "f46e1c22-38e4-46e8-a80f-177821079ae3",
+    "name": "KlettCotta",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  }
+]

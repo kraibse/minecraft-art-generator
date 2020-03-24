@@ -11,10 +11,12 @@ import time
 
 import Image
 
-
 def init():
     global mc
-    mc = Minecraft.create()
+    try:
+        mc = Minecraft.create()
+    except ConnectionRefusedError:
+        sys.exit(print("[MCWorldNotFound] Make sure the world is running before starting the script."))
 
     # app interface
     global app
