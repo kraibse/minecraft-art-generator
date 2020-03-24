@@ -34,8 +34,12 @@ You can change this resolution if needed in the [Image.py](https://github.com/rr
     python3 -m install Pillow
 
 - [x] Minecraft Pi
+
 OR
+
 - [x] Spigot Server with the "RaspberryJuice" plugin
+
+Additionally you need:
 
 - [x] Python 3.x
 - [x] Pictures in your "pictures" directory
