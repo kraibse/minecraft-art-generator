@@ -8,6 +8,7 @@ import sys
 import math
 import os
 import time
+import threading
 
 import Image
 
@@ -28,8 +29,12 @@ def init():
 
 
 def clearArea():
-    mc.setBlocks(-320, -1, -320, 320, 25, 320, 0)
-    mc.setBlocks(-320, -1, -320, 320, -1, 320, 9)
+    for x in range(200):
+        for y in range(200):
+            for z in range(100):
+                mc.setBlock(x, y, z, block.DIRT)
+                print("Setting block at x: {}, y: {}, z: {}".format(x, y, z))
+                time.sleep(0.1)
 
 
 def handleRequests(btn):
@@ -47,37 +52,34 @@ def handleRequests(btn):
         if msg[0] != "/":
             try:
                 mc.postToChat(msg)
+
             except UnicodeEncodeError:
                 mc.postToChat("[ERROR] You entered unsupported characters")
     
         elif args[0] == "/print": # command
-            try:
-
-                for i in os.listdir("./pictures/"):
-                    if i[0:i.rfind(".")] == args[1]:
-                        args[1] = i
-
-                try:
-                    filePath = "pictures/" + args[1]
-                    if os.path.isfile(filePath):
-                    
-                        mc.postToChat(args[1])
-                        print(args[1])
-
-                        clearArea()
-                        main(filePath)
-
-                    else:
-                        print("[ERROR] File '{}' does not exist".format(args[1]))
-                        mc.postToChat("[ERROR] File '{}' does not exist".format(args[1]))
-            
-                except FileNotFoundError:
-                    print("[ERROR] File '{}' does not exist".format(args[1]))
-                    mc.postToChat("[ERROR] File '{}' does not exist".format(args[1]))
-
-            except IndexError:
+            if len(args) == 1:
                 print("[ERROR] Filename must be provided")
                 mc.postToChat("[ERROR] Filename must be provided")
+                return
+
+            for i in os.listdir("./pictures/"):
+                if i[0:i.rfind(".")] == args[1]:
+                    args[1] = i
+            try:
+                filePath = "pictures/" + args[1]
+                if os.path.isfile(filePath):
+            
+                    mc.postToChat(args[1])
+                    print(args[1])
+                    clearArea()
+                    main(filePath)
+                else:
+                    print("[ERROR] File '{}' does not exist".format(args[1]))
+                    mc.postToChat("[ERROR] File '{}' does not exist".format(args[1]))
+            except FileNotFoundError:
+                print("[ERROR] File '{}' does not exist".format(args[1]))
+                mc.postToChat("[ERROR] File '{}' does not exist".format(args[1]))
+
 
 
 
