@@ -20,18 +20,37 @@ In-game screenshot:
 ![Screenshot](https://github.com/kraibse/minecraft_printer/blob/master/pictures/example/ingame.png)
 
 ## Instructions
-1. Open the program:
+1. Start the world (RaspberryPi) or the server (desktop)
+    start.bat / start.sh
+
+2. Run the program:
     python3 main.py
+    OR
+    python main.py
 
-2. In the Input box you have the options:
+3. In the Input box you have the options:
     - type your inserted message to the chat
-    - execute the commands "/print <filename>" and "/clear"
+    - insert a command (a list of commands will be down below)
+        
+    - pictures and gifs are added by putting some into the "pictures" directory
+
+4. Press "Send"
+
+5. Enjoy the magic! :)
+
+## Commands
+### Remember to insert the filename without the file extension
+Removing any blocks in a 128 block radius (up to the build limit) 
+
+    /clear
     
-    - Pictures are added by putting some into the "pictures" directory
+Printing a picture in Minecraft
 
-3. Press "Send"
+    /print {filename}
+    
+Outputting a gif frame by frame:
 
-4. Enjoy the magic! :)
+    /gif {filename}
 
 ## Requirements
 
@@ -42,6 +61,7 @@ In-game screenshot:
 - [x] Minecraft Pi
 OR
 - [x] Spigot Server with the "RaspberryJuice" plugin
+    - the server is included in the files and just needs to be started
 
 Additionally you need:
 - [x] Python 3.x
