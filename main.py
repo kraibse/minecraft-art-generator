@@ -155,7 +155,7 @@ class MinecraftRemote():
                 else:
                     blockID, blockMeta = 0, 0
 
-                self.mc.setBlock(-Image.resolution + x, 1, -Image.resolution + y, blockID, blockMeta)
+                self.mc.setBlock(-settings.resolution + x, 1, -settings.resolution + y, blockID, blockMeta)
 
 
     def clearArea(self):
