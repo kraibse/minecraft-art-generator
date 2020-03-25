@@ -22,11 +22,12 @@ class MinecraftRemote():
     (blockID, metaData): (r, g, b)
     '''
     colors = settings.colors
-
+    
     def __init__(self):
         '''
         Setup for the Minecraft instance and the Application GUI
         '''
+
         try:
             self.mc = Minecraft.create()
 
@@ -154,15 +155,15 @@ class MinecraftRemote():
                 else:
                     blockID, blockMeta = 0, 0
 
-                self.mc.setBlock(-128 + x, 1, -128 + y, blockID, blockMeta)
+                self.mc.setBlock(-Image.resolution + x, 1, -Image.resolution + y, blockID, blockMeta)
 
 
     def clearArea(self):
-        size = settings.resolution / 2
-
+        size = 512
         self.mc.setBlocks(-size, 0, -size, size - 1, 255, size, block.AIR)
         self.mc.setBlocks(-size, 0, -size, size - 1, 0, size, block.WOOL, 0)
 
+        size = settings.resolution / 2
         self.mc.setBlocks(-size, 1, -size, -size, 1, size, block.GOLD_BLOCK)
         self.mc.setBlocks(-size, 1, -size, size - 2, 1, -size, block.GOLD_BLOCK)
         self.mc.setBlocks(size, 1, size, -size, 1, size, block.GOLD_BLOCK)
