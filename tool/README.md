@@ -14,3 +14,6 @@
 
 - (if you are going to add more than one additional block to the file)
 	- **Remember the comma at the end of the line**
+
+## important links
+[Minecraft ID List](https://minecraft-ids.grahamedgecombe.com/)
