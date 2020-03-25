@@ -155,11 +155,11 @@ class MinecraftRemote():
                 else:
                     blockID, blockMeta = 0, 0
 
-                self.mc.setBlock(-settings.resolution + x, 1, -settings.resolution + y, blockID, blockMeta)
+                self.mc.setBlock(-settings.resolution / 2 + x, 1, -settings.resolution / 2 + y, blockID, blockMeta)
 
 
     def clearArea(self):
-        size = 512
+        size = 256 / 2
         self.mc.setBlocks(-size, 0, -size, size - 1, 255, size, block.AIR)
         self.mc.setBlocks(-size, 0, -size, size - 1, 0, size, block.WOOL, 0)
 
