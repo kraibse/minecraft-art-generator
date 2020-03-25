@@ -14,6 +14,9 @@ import os
 
 def init():
     inDir = "./textures/"
+    if os.path.isdir() == False:
+        os.mkdir(inDir)
+
     for texture in os.listdir(inDir):
         image = Image.open(inDir + texture)
         rgb = get_average_rgb(image)
