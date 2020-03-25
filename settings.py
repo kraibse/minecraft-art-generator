@@ -50,22 +50,22 @@ colors = { \
             (159, 14): (143, 61, 47), # red terracotta
             (159, 15): (37, 23, 16), # black terracotta
             
-            (236, 0): (207, 213, 214), # white concrete
-            (236, 1): (224, 97, 1), # orange concrete
-            (236, 2): (169, 48, 159), # magenta concrete
-            (236, 3): (36, 137, 199), # light blue concrete
-            (236, 4): (241, 175, 21), # yellow concrete
-            (236, 5): (94, 169, 24), # lime concrete
-            (236, 6): (214, 101, 143), # pink concrete
-            (236, 7): (55, 58, 62), # gray concrete
-            (236, 8): (125, 125, 115), # light gray concrete
-            (236, 9): (21, 119, 136), # cyan concrete
-            (236, 10): (100, 32, 156), # purple concrete
-            (236, 11): (45, 47, 143), # blue concrete
-            (236, 12): (96, 60, 32), # brown concrete
-            (236, 13): (73, 91, 36), # green concrete
-            (236, 14): (142, 33, 33), # red concrete
-            (236, 15): (8, 10, 15), # black concrete
+            (251, 0): (207, 213, 214), # white concrete
+            (251, 1): (224, 97, 1), # orange concrete
+            (251, 2): (169, 48, 159), # magenta concrete
+            (251, 3): (36, 137, 199), # light blue concrete
+            (251, 4): (241, 175, 21), # yellow concrete
+            (251, 5): (94, 169, 24), # lime concrete
+            (251, 6): (214, 101, 143), # pink concrete
+            (251, 7): (55, 58, 62), # gray concrete
+            (251, 8): (125, 125, 115), # light gray concrete
+            (251, 9): (21, 119, 136), # cyan concrete
+            (251, 10): (100, 32, 156), # purple concrete
+            (251, 11): (45, 47, 143), # blue concrete
+            (251, 12): (96, 60, 32), # brown concrete
+            (251, 13): (73, 91, 36), # green concrete
+            (251, 14): (142, 33, 33), # red concrete
+            (251, 15): (8, 10, 15), # black concrete
 
             (1, 6): (132, 135, 134), # polished andesite
             (1, 2): (154, 107, 89), # polished granite
