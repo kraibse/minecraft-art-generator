@@ -18,10 +18,67 @@ colors = { \
             (35, 6): (217, 129, 153), # pink wool
             (35, 12): (86, 51, 28), # brown wool
             (35, 13): (54, 75, 24), # green wool
-            (17, 2): (88, 70, 43), # oak log
+
             (3, 0): (117, 84, 58), # dirt
+
+            (17, 2): (88, 70, 43), # oak log
+
             (5, 0): (140, 114, 70), # oak planks
-            (18, 0): (33, 125, 22), # leaves
+            (5, 1,): (115, 85, 49), # spruce planks
+            (5, 2): (168, 90, 50), # birch planks
+            (5, 3): (160, 115, 81), # jungle planks
+            (5, 4): (168, 90, 50), # acacia planks
+            (5, 5): (67, 43, 20), # dark oak planks
+
+
+            (172, 0): (152, 94, 68), # untreated terracotta
+
+            (159, 0): (210, 178, 161), # white terracotta
+            (159, 1): (162, 84, 38), # orange terracotta
+            (159, 2): (150, 88, 109), # magenta terracotta
+            (159, 3): (113, 109, 138), # light blue terracotta
+            (159, 4): (186, 133, 35), # yellow terracotta
+            (159, 5): (104, 118, 53), # lime terracotta
+            (159, 6): (162, 78, 79), # pink terracotta
+            (159, 7): (58, 42, 36), # gray terracotta
+            (159, 8): (135, 107, 98), # light gray terracotta
+            (159, 9): (87, 91, 91), # cyan terracotta
+            (159, 10): (118, 70, 86), # purple terracotta
+            (159, 11): (74, 60, 91), # blue terracotta
+            (159, 12): (77, 51, 36), # brown terracotta
+            (159, 13): (76, 83, 42), # green terracotta
+            (159, 14): (143, 61, 47), # red terracotta
+            (159, 15): (37, 23, 16), # black terracotta
+            
+            (236, 0): (207, 213, 214), # white concrete
+            (236, 1): (224, 97, 1), # orange concrete
+            (236, 2): (169, 48, 159), # magenta concrete
+            (236, 3): (36, 137, 199), # light blue concrete
+            (236, 4): (241, 175, 21), # yellow concrete
+            (236, 5): (94, 169, 24), # lime concrete
+            (236, 6): (214, 101, 143), # pink concrete
+            (236, 7): (55, 58, 62), # gray concrete
+            (236, 8): (125, 125, 115), # light gray concrete
+            (236, 9): (21, 119, 136), # cyan concrete
+            (236, 10): (100, 32, 156), # purple concrete
+            (236, 11): (45, 47, 143), # blue concrete
+            (236, 12): (96, 60, 32), # brown concrete
+            (236, 13): (73, 91, 36), # green concrete
+            (236, 14): (142, 33, 33), # red concrete
+            (236, 15): (8, 10, 15), # black concrete
+
+            (1, 6): (132, 135, 134), # polished andesite
+            (1, 2): (154, 107, 89), # polished granite
+            (1, 4): (193, 193, 195), # polished diorite
+            (168, 0): (99, 156, 151), # prismarine
+            (168, 2): (99, 172, 158), # prismarine bricks
+            (179, 2): (181, 98, 31), # red sandstone
+            (24, 2): (224, 214, 170), # normal sandstone
+            (201, 0): (170, 126, 170), # purpur block
+            (82, 0): (161, 166, 179), # clay
+
+
+            (18, 0): (33, 125, 22), # oak leaves
             (89, 0): (128, 105, 63), # glowstone
             (24, 0): (84, 84, 84), # sandstone
             (87, 0): (98, 47, 46), # netherrack
@@ -32,4 +89,6 @@ colors = { \
             (42, 0): (196, 196, 196), # ironblock
             (57, 0): (97, 196, 191), # diamondblock
             (103, 0): (131, 134, 32) # melon
+
+
         }
