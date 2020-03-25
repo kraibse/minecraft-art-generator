@@ -2,11 +2,11 @@
 
 ## Description
 These scripts enable you to print an imported image into your Minecraft world.
-Currently the produced pixel art is locked to a maximum in-game resolution of 256 by 256 blocks.
+Currently the produced pixel art is set to a maximum in-game resolution of 256 by 256 blocks.
 
-You can change this resolution if needed in the [Image.py](https://github.com/rrleo/minecraft_printer/blob/136fef1abf0cb8bbcbdb173402e3cd17497e6b90/Image.py#L16) file.
+You can change this resolution if needed in the [settings.py](https://github.com/kraibse/minecraft_printer/blob/685e3468dc2b06cc70edc1fc6ab644d7e32c7090/settings.py#L1) file.
 
-    maxRes = 256
+    resolution = 256
 
 It is recommended to change the resolution to **64** if you want to run the scripts on a RaspberryPi.
 Minecraft Pi Edition wont allow any changes in the render distance (also the performance is very bad)
