@@ -4,6 +4,8 @@ import os
 import sys
 import math
 
+import settings
+
 def getRGB(img, x, y):
     img = img.convert("RGBA")
     r, g, b, a = img.getpixel((x, y))
@@ -14,7 +16,7 @@ def getRGB(img, x, y):
 def resize(img):
     img = Image.open(img)
     x, y = getSize(img)
-    maxRes = 256
+    maxRes = settings.resolution
 
     aspectRatio = max(x, y) / min(x, y)
     if x == max(x, y):
