@@ -8,7 +8,7 @@ You can change this resolution if needed in the [settings.py](https://github.com
 
     resolution = 256
 
-It is recommended to change the resolution to **64** if you want to run the scripts on a RaspberryPi.
+It is recommended to **use a new world for this script** and also change the resolution to **64** if you want to run the scripts on a RaspberryPi.
 Minecraft Pi Edition wont allow any changes in the render distance (also the performance is very bad)
 If you're on PC you can adjust the resolution to your liking.
 
